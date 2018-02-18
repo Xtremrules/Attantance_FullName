@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -15,6 +16,15 @@ namespace Attantance_FullName.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
+        }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        /// Another way to get user full name
+
+        [NotMapped]
+        public string FullName
+        {
+            get { return FirstName + ", " + LastName; }
         }
     }
 
