@@ -17,15 +17,17 @@ namespace Attantance_FullName.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _db;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationDbContext _db)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            this._db = _db;
         }
 
         public ApplicationSignInManager SignInManager
@@ -79,7 +81,14 @@ namespace Attantance_FullName.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var log = new Log { LoginTime = DateTime.Now, AppUserName = User.Identity.Name };
+
+                #region Logging Part
+                    _db.Logs.Add(log);
+                    await _db.SaveChangesAsync();
+                    return RedirectToLocal(returnUrl); 
+                #endregion
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
