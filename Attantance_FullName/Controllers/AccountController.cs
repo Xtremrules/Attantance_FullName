@@ -17,13 +17,13 @@ namespace Attantance_FullName.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationDbContext _db;
+        private AppDbContext _db;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationDbContext _db)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, AppDbContext _db)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -81,7 +81,7 @@ namespace Attantance_FullName.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    var log = new Log { LoginTime = DateTime.Now, AppUserName = User.Identity.Name };
+                    var log = new Log { LoginTime = DateTime.Now, AppUserID = User.Identity.Name };
 
                 #region Logging Part
                     _db.Logs.Add(log);
@@ -160,7 +160,7 @@ namespace Attantance_FullName.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -376,7 +376,7 @@ namespace Attantance_FullName.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

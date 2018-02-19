@@ -11,6 +11,6 @@ namespace Attantance_FullName.Models
         public string Content { get; set; }
         [Required, ForeignKey("AppUser")]
         public string AppUserID { get; set; }
-        public ApplicationUser AppUser { get; set; }
+        public AppUser AppUser { get; set; }
     }
 }

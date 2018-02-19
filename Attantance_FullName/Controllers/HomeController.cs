@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Attantance_FullName.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,6 +11,8 @@ namespace Attantance_FullName.Controllers
 {
     public class HomeController : Controller
     {
+        private AppDbContext db = new AppDbContext();
+
         public ActionResult Index()
         {
             return View();
@@ -25,6 +30,13 @@ namespace Attantance_FullName.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public async Task<ActionResult> logs()
+        {
+            var username = User.Identity.Name;
+            var logs = await db.Logs.Where(x => x.AppUserID == username).ToListAsync();
+            return View(logs);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Attantance_FullName.Models
     {
         public int ID { get; set; }
         [Required]
-        public string AppUserName { get; set; }
+        public string AppUserID { get; set; }
         [Required, DataType(DataType.DateTime)]
         public DateTime LoginTime { get; set; }
     }
