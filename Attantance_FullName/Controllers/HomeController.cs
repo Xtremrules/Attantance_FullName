@@ -29,6 +29,7 @@ namespace Attantance_FullName.Controllers
             return View();
         }
 
+        [Authorize()]
         public async Task<ActionResult> logs()
         {
             var username = User.Identity.Name;
